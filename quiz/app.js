@@ -4,6 +4,7 @@ var favicon = require('serve-favicon'); //favicon
 var logger = require('morgan');         //middlewares
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var partials = require('express-partials');
 
 //importar enrutadores
 var routes = require('./routes/index');
@@ -13,6 +14,9 @@ var app = express();    //crear aplicación
 // view engine setup
 app.set('views', path.join(__dirname, 'views')); //instalar generador de vistas ejs
 app.set('view engine', 'ejs');
+
+//del express-partials
+app.use(partials());
 
 // uncomment after placing your favicon in /public
 app.use(favicon(__dirname + '/public/favicon.ico'));
