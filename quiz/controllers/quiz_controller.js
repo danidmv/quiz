@@ -68,7 +68,15 @@ exports.author = function(req, res){
 
 //get /quizes
 exports.index = function(req, res){
-    models.Quiz.findAll().then(function(quizes){
+    //buscar
+    var buscar = '%'
+    if( req.query.buscar ){
+        buscar = '%'+req.query.buscar+'%';
+        buscar = buscar.replace(/\s+/g,'%');
+    }
+    models.Quiz.findAll(
+            { where : ["LOWER( pregunta ) LIKE LOWER (?)", buscar]}
+            ).then(function(quizes){
         res.render('quizes/index.ejs', {quizes: quizes});
     }).catch(function(error){next(error);});
 };
