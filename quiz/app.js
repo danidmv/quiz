@@ -5,6 +5,7 @@ var logger = require('morgan');         //middlewares
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var partials = require('express-partials');
+var methodOverride = require('method-override');
 
 //importar enrutadores
 var routes = require('./routes/index');
@@ -24,6 +25,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());     //instalar middlewares
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
+app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //asociar rutas a sus gestores

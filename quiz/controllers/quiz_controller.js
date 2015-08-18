@@ -102,3 +102,35 @@ exports.index = function(req, res){
         res.render('quizes/index.ejs', {quizes: quizes, errors: []});
     }).catch(function(error){next(error);});
 };
+
+
+
+// get /quizes/:id/edit
+exports.edit = function(req, res){
+    var quiz = req.quiz;
+    
+    res.render('quizes/edit', {quiz: quiz, errors: []});
+};
+
+//put /quizes/:id
+exports.update = function(req, res){
+    req.quiz.pregunta = req.body.quiz.pregunta;
+    req.quiz.respuesta = req.body.quiz.respuesta;
+    
+    req.quiz
+            .validate()
+            .then(
+                function(err){
+                    if(err){
+                        res.render('quizes/edit', {quiz: req.quiz, erros: err.errors });
+                    }
+                    else{
+                        req.quiz
+                                .save( {fields : ["pregunta", "respuesta"]})
+                                .then(function(){
+                                    res.redirect('/quizes');
+                                });
+                    }
+                }
+            );
+};
