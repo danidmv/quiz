@@ -65,22 +65,6 @@ exports.answer = function(req, res){
         resultado = 'Correcto';
     }
     res.render('quizes/answer', {quiz: req.quiz, respuesta: resultado,  errors: []});
-//    models.Quiz.findById(req.params.quizId).then(function(quiz){
-//        if(req.query.respuesta === req.quiz.respuesta ){
-//            res.render('quizes/answer', {quiz: req.quiz, respuesta: 'Correcto'});
-//        } 
-//        else{
-//            res.render('quizes/answer', {quiz: req.quiz, respuesta: 'Incorrecto'});
-//        }
-//    });
-//    models.Quiz.findAll().then(function(quiz){
-//        if( req.query.respuesta === quiz[0].respuesta ){
-//           res.render('quizes/answer', {respuesta: 'Correctoo'});
-//        } 
-//        else {
-//            res.render('quizes/answer', {respuesta: 'Incorrectoo'});
-//        }
-//    });
 };
 
 //GET /author
@@ -133,4 +117,13 @@ exports.update = function(req, res){
                     }
                 }
             );
+};
+
+// delete /quizes/:id
+exports.destroy = function(req, res){
+    req.quiz.destroy().then(function(){
+        res.redirect('/quizes');
+    }).catch(function(error){
+        next(error);
+    });
 };
