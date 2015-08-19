@@ -31,6 +31,32 @@ app.use(session());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+
+
+// autologout
+ app.use(function(req,res,next){
+    var instante = new Date();
+
+        if(req.session.user){
+            if(req.session.user.inicioSesion){
+                var sesion = new Date(req.session.user.inicioSesion);
+                var difDate= instante - sesion;
+                        if(difDate>12000){
+                            delete req.session.user;
+                            next();
+                            return;
+                        }
+            }
+            req.session.user.inicioSesion= new Date(); //Vuelve a activar el "contador"
+        }
+        next();
+});
+
+
+
+
+
 //helpers dinamicos
 app.use( function(req, res, next ){
     
