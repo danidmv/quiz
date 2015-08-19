@@ -1,4 +1,4 @@
-/* 
+ï»¿/* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -7,15 +7,19 @@ var models = require('../models/models.js');
 
 // autoload - factoriza el código si ruta incluye :quizId
 exports.load = function(req, res, next, quizId){
-    models.Quiz.findById(quizId).then(function(quiz){
-        if(quiz){
-            req.quiz = quiz;
-            next();
-        }
-        else{
-            next( new Error('No existe quizId='+quizId));
-        }
-    }).catch(function(error){next(error);});
+    models.Quiz.find(
+            {
+                where : { id: Number(quizId) },
+                include: [{ model: models.Comment }]
+            }).then(function(quiz){
+                if(quiz){
+                    req.quiz = quiz;
+                    next();
+                }
+                else{
+                    next( new Error('No existe quizId='+quizId));
+                }
+            }).catch(function(error){next(error);});
 };
 
 // get /quizes/new
@@ -69,7 +73,7 @@ exports.answer = function(req, res){
 
 //GET /author
 exports.author = function(req, res){
-    res.render('author');
+    res.render('author', {errors: []});
 };
 
 //get /quizes
