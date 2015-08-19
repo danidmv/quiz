@@ -4,6 +4,16 @@
  * and open the template in the editor.
  */
 
+//mw de autorizacion de accesos http restringidos
+exports.loginRequired = function(req, res, next){
+    if( req.session.user ){
+        next();
+    }
+    else{
+        res.redirect('/login');
+    }
+};
+
 // get /login - formulario login
 exports.new = function(req, res ){
     var errors = req.session.erros || {};
