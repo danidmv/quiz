@@ -65,5 +65,6 @@ sequelize.sync().then(function() {
     }else{
        // Quiz.drop();
     }
+    //Comment.drop();
   });
 });
